@@ -21,23 +21,39 @@ test_model() {
     echo "Testing: $model"
     echo "Log: $log_file"
     
-    (eval "$command"; echo "EOF") 2>&1 | tee "$log_file" | \
-    timeout $TIMEOUT grep -m1 -E "EOF|ready to roll|Server is ready" | \
-    while read -r line; do
-        if [[ "$line" == "EOF" ]]; then
+    # Run docker in background
+    (eval "$command"; echo "EOF") > "$log_file" 2>&1 &
+    local docker_pid=$!
+    
+    # Monitor log file for success/failure
+    local start_time=$(date +%s)
+    while true; do
+        # Check timeout
+        local current_time=$(date +%s)
+        if (( current_time - start_time > TIMEOUT )); then
+            echo "⏱ TIMEOUT"
+            kill $docker_pid 2>/dev/null || true
+            docker stop $(docker ps -q) 2>/dev/null || true
+            return 2
+        fi
+        
+        # Check if docker process exited (check for EOF in log)
+        if grep -q "^EOF$" "$log_file" 2>/dev/null; then
             echo "✗ FAILURE: Process exited"
+            docker stop $(docker ps -q) 2>/dev/null || true
             return 1
-        elif echo "$line" | grep -iq "ready to roll\|Server is ready"; then
+        fi
+        
+        # Check for success
+        if grep -iq "ready to roll\|Server is ready" "$log_file" 2>/dev/null; then
             echo "✓ SUCCESS"
+            kill $docker_pid 2>/dev/null || true
+            docker stop $(docker ps -q) 2>/dev/null || true
             return 0
         fi
+        
+        sleep 2
     done
-    
-    echo "⏱ TIMEOUT"
-    
-    # Stop container
-    docker stop $(docker ps -q) 2>/dev/null || true
-    sleep 5
 }
 
 # Read CSV and test each model
