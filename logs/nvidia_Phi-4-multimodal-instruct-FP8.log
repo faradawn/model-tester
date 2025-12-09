@@ -1,0 +1,60 @@
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 13.0.1
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+/usr/local/lib/python3.12/dist-packages/torch/cuda/__init__.py:283: UserWarning: 
+    Found GPU0 NVIDIA GB10 which is of cuda capability 12.1.
+    Minimum and Maximum cuda capability supported by this version of PyTorch is
+    (8.0) - (12.0)
+    
+  warnings.warn(
+[2025-12-09 02:42:03] WARNING common.py:1568: Failed to get GPU memory capacity from nvidia-smi, falling back to torch.cuda.mem_get_info().
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/sgl-workspace/sglang/python/sglang/launch_server.py", line 24, in <module>
+    server_args = prepare_server_args(sys.argv[1:])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/server_args.py", line 4069, in prepare_server_args
+    return ServerArgs.from_cli_args(raw_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/server_args.py", line 3677, in from_cli_args
+    return cls(**{attr: getattr(args, attr) for attr in attrs})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 277, in __init__
+  File "/sgl-workspace/sglang/python/sglang/srt/server_args.py", line 599, in __post_init__
+    self._handle_model_specific_adjustments()
+  File "/sgl-workspace/sglang/python/sglang/srt/server_args.py", line 911, in _handle_model_specific_adjustments
+    hf_config = self.get_hf_config()
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/server_args.py", line 3687, in get_hf_config
+    hf_config = get_config(
+                ^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/utils/common.py", line 3131, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/sgl-workspace/sglang/python/sglang/srt/utils/hf_transformers_utils.py", line 219, in get_config
+    raise e
+  File "/sgl-workspace/sglang/python/sglang/srt/utils/hf_transformers_utils.py", line 213, in get_config
+    config = AutoConfig.from_pretrained(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/transformers/models/auto/configuration_auto.py", line 1341, in from_pretrained
+    trust_remote_code = resolve_trust_remote_code(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/transformers/dynamic_module_utils.py", line 782, in resolve_trust_remote_code
+    raise ValueError(
+ValueError: The repository nvidia/Phi-4-multimodal-instruct-FP8 contains custom code which must be executed to correctly load the model. You can inspect the repository content at https://hf.co/nvidia/Phi-4-multimodal-instruct-FP8 .
+ You can inspect the repository content at https://hf.co/nvidia/Phi-4-multimodal-instruct-FP8.
+Please pass the argument `trust_remote_code=True` to allow custom code to be run.
+EOF
