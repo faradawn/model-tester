@@ -1,157 +1,151 @@
-
-==========
-== CUDA ==
-==========
-
-CUDA Version 13.0.1
-
-Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-
-This container image and its contents are governed by the NVIDIA Deep Learning Container License.
-By pulling and using the container, you accept the terms and conditions of this license:
-https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
-
-A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
-
-/usr/local/lib/python3.12/dist-packages/torch/cuda/__init__.py:283: UserWarning: 
-    Found GPU0 NVIDIA GB10 which is of cuda capability 12.1.
-    Minimum and Maximum cuda capability supported by this version of PyTorch is
-    (8.0) - (12.0)
-    
-  warnings.warn(
-[2025-12-09 02:44:23] WARNING common.py:1568: Failed to get GPU memory capacity from nvidia-smi, falling back to torch.cuda.mem_get_info().
-[2025-12-09 02:44:33] WARNING server_args.py:1204: Attention backend not explicitly specified. Use flashinfer backend by default.
-[2025-12-09 02:44:34] server_args=ServerArgs(model_path='nvidia/Qwen3-14B-FP8', tokenizer_path='nvidia/Qwen3-14B-FP8', tokenizer_mode='auto', tokenizer_worker_num=1, skip_tokenizer_init=False, load_format='auto', model_loader_extra_config='{}', trust_remote_code=False, context_length=None, is_embedding=False, enable_multimodal=None, revision=None, model_impl='auto', host='0.0.0.0', port=30000, grpc_mode=False, skip_server_warmup=False, warmups=None, nccl_port=None, checkpoint_engine_wait_weights_before_ready=False, dtype='auto', quantization='modelopt_fp8', quantization_param_path=None, kv_cache_dtype='auto', enable_fp32_lm_head=False, modelopt_quant=None, modelopt_checkpoint_restore_path=None, modelopt_checkpoint_save_path=None, modelopt_export_path=None, quantize_and_serve=False, mem_fraction_static=0.7, max_running_requests=None, max_queued_requests=None, max_total_tokens=None, chunked_prefill_size=8192, max_prefill_tokens=16384, schedule_policy='fcfs', enable_priority_scheduling=False, abort_on_priority_when_disabled=False, schedule_low_priority_values_first=False, priority_scheduling_preemption_threshold=10, schedule_conservativeness=1.0, page_size=1, hybrid_kvcache_ratio=None, swa_full_tokens_ratio=0.8, disable_hybrid_swa_memory=False, radix_eviction_policy='lru', device='cuda', tp_size=1, pp_size=1, pp_max_micro_batch_size=None, stream_interval=1, stream_output=False, random_seed=180964133, constrained_json_whitespace_pattern=None, constrained_json_disable_any_whitespace=False, watchdog_timeout=300, dist_timeout=None, download_dir=None, base_gpu_id=0, gpu_id_step=1, sleep_on_idle=False, log_level='info', log_level_http=None, log_requests=False, log_requests_level=2, crash_dump_folder=None, show_time_cost=False, enable_metrics=False, enable_metrics_for_all_schedulers=False, tokenizer_metrics_custom_labels_header='x-custom-labels', tokenizer_metrics_allowed_custom_labels=None, bucket_time_to_first_token=None, bucket_inter_token_latency=None, bucket_e2e_request_latency=None, collect_tokens_histogram=False, prompt_tokens_buckets=None, generation_tokens_buckets=None, gc_warning_threshold_secs=0.0, decode_log_interval=40, enable_request_time_stats_logging=False, kv_events_config=None, enable_trace=False, otlp_traces_endpoint='localhost:4317', export_metrics_to_file=False, export_metrics_to_file_dir=None, api_key=None, served_model_name='nvidia/Qwen3-14B-FP8', weight_version='default', chat_template=None, completion_template=None, file_storage_path='sglang_storage', enable_cache_report=False, reasoning_parser=None, tool_call_parser=None, tool_server=None, sampling_defaults='model', dp_size=1, load_balance_method='round_robin', load_watch_interval=0.1, prefill_round_robin_balance=False, dist_init_addr=None, nnodes=1, node_rank=0, json_model_override_args='{}', preferred_sampling_params=None, enable_lora=None, max_lora_rank=None, lora_target_modules=None, lora_paths=None, max_loaded_loras=None, max_loras_per_batch=8, lora_eviction_policy='lru', lora_backend='csgmv', max_lora_chunk_size=16, attention_backend='flashinfer', decode_attention_backend=None, prefill_attention_backend=None, sampling_backend='flashinfer', grammar_backend='xgrammar', mm_attention_backend=None, nsa_prefill_backend='flashmla_sparse', nsa_decode_backend='fa3', speculative_algorithm=None, speculative_draft_model_path=None, speculative_draft_model_revision=None, speculative_draft_load_format=None, speculative_num_steps=None, speculative_eagle_topk=None, speculative_num_draft_tokens=None, speculative_accept_threshold_single=1.0, speculative_accept_threshold_acc=1.0, speculative_token_map=None, speculative_attention_mode='prefill', speculative_moe_runner_backend=None, speculative_ngram_min_match_window_size=1, speculative_ngram_max_match_window_size=12, speculative_ngram_min_bfs_breadth=1, speculative_ngram_max_bfs_breadth=10, speculative_ngram_match_type='BFS', speculative_ngram_branch_length=18, speculative_ngram_capacity=10000000, ep_size=1, moe_a2a_backend='none', moe_runner_backend='auto', flashinfer_mxfp4_moe_precision='default', enable_flashinfer_allreduce_fusion=False, deepep_mode='auto', ep_num_redundant_experts=0, ep_dispatch_algorithm='static', init_expert_location='trivial', enable_eplb=False, eplb_algorithm='auto', eplb_rebalance_num_iterations=1000, eplb_rebalance_layers_per_chunk=None, eplb_min_rebalancing_utilization_threshold=1.0, expert_distribution_recorder_mode=None, expert_distribution_recorder_buffer_size=1000, enable_expert_distribution_metrics=False, deepep_config=None, moe_dense_tp_size=None, elastic_ep_backend=None, mooncake_ib_device=None, max_mamba_cache_size=None, mamba_ssm_dtype='float32', mamba_full_memory_ratio=0.9, enable_hierarchical_cache=False, hicache_ratio=2.0, hicache_size=0, hicache_write_policy='write_through', hicache_io_backend='kernel', hicache_mem_layout='layer_first', hicache_storage_backend=None, hicache_storage_prefetch_policy='best_effort', hicache_storage_backend_extra_config=None, enable_lmcache=False, kt_weight_path=None, kt_method='AMXINT4', kt_cpuinfer=None, kt_threadpool_count=2, kt_num_gpu_experts=None, kt_max_deferred_experts_per_token=None, enable_double_sparsity=False, ds_channel_config_path=None, ds_heavy_channel_num=32, ds_heavy_token_num=256, ds_heavy_channel_type='qk', ds_sparse_decode_threshold=4096, cpu_offload_gb=0, offload_group_size=-1, offload_num_in_group=1, offload_prefetch_step=1, offload_mode='cpu', multi_item_scoring_delimiter=None, disable_radix_cache=False, cuda_graph_max_bs=32, cuda_graph_bs=[1, 2, 4, 8, 12, 16, 24, 32], disable_cuda_graph=False, disable_cuda_graph_padding=False, enable_profile_cuda_graph=False, enable_cudagraph_gc=False, enable_nccl_nvls=False, enable_symm_mem=False, disable_flashinfer_cutlass_moe_fp4_allgather=False, enable_tokenizer_batch_encode=False, disable_tokenizer_batch_decode=False, disable_outlines_disk_cache=False, disable_custom_all_reduce=False, enable_mscclpp=False, enable_torch_symm_mem=False, disable_overlap_schedule=False, enable_mixed_chunk=False, enable_dp_attention=False, enable_dp_lm_head=False, enable_two_batch_overlap=False, enable_single_batch_overlap=False, tbo_token_distribution_threshold=0.48, enable_torch_compile=False, enable_piecewise_cuda_graph=False, torch_compile_max_bs=32, piecewise_cuda_graph_max_tokens=4096, piecewise_cuda_graph_tokens=[4, 8, 12, 16, 20, 24, 28, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256, 288, 320, 352, 384, 416, 448, 480, 512, 640, 768, 896, 1024, 1152, 1280, 1408, 1536, 1664, 1792, 1920, 2048, 2176, 2304, 2432, 2560, 2688, 2816, 2944, 3072, 3200, 3328, 3456, 3584, 3712, 3840, 3968, 4096], piecewise_cuda_graph_compiler='eager', torchao_config='', enable_nan_detection=False, enable_p2p_check=False, triton_attention_reduce_in_fp32=False, triton_attention_num_kv_splits=8, triton_attention_split_tile_size=None, num_continuous_decode_steps=1, delete_ckpt_after_loading=False, enable_memory_saver=False, enable_weights_cpu_backup=False, allow_auto_truncate=False, enable_custom_logit_processor=False, flashinfer_mla_disable_ragged=False, disable_shared_experts_fusion=False, disable_chunked_prefix_cache=False, disable_fast_image_processor=False, keep_mm_feature_on_device=False, enable_return_hidden_states=False, scheduler_recv_interval=1, numa_node=None, enable_deterministic_inference=False, rl_on_policy_target=None, enable_dynamic_batch_tokenizer=False, dynamic_batch_tokenizer_batch_size=32, dynamic_batch_tokenizer_batch_timeout=0.002, debug_tensor_dump_output_folder=None, debug_tensor_dump_layers=None, debug_tensor_dump_input_file=None, debug_tensor_dump_inject=False, disaggregation_mode='null', disaggregation_transfer_backend='mooncake', disaggregation_bootstrap_port=8998, disaggregation_decode_tp=None, disaggregation_decode_dp=None, disaggregation_prefill_pp=1, disaggregation_ib_device=None, disaggregation_decode_enable_offload_kvcache=False, num_reserved_decode_tokens=512, disaggregation_decode_polling_interval=1, custom_weight_loader=[], weight_loader_disable_mmap=False, remote_instance_weight_loader_seed_instance_ip=None, remote_instance_weight_loader_seed_instance_service_port=None, remote_instance_weight_loader_send_weights_group_ports=None, enable_pdmux=False, pdmux_config_path=None, sm_group_num=8, mm_max_concurrent_calls=32, mm_per_request_timeout=10.0, decrypted_config_file=None, decrypted_draft_config_file=None)
-[2025-12-09 02:44:34] Using default HuggingFace chat template with detected content format: string
-/usr/local/lib/python3.12/dist-packages/torch/cuda/__init__.py:283: UserWarning: 
-    Found GPU0 NVIDIA GB10 which is of cuda capability 12.1.
-    Minimum and Maximum cuda capability supported by this version of PyTorch is
-    (8.0) - (12.0)
-    
-  warnings.warn(
-/usr/local/lib/python3.12/dist-packages/torch/cuda/__init__.py:283: UserWarning: 
-    Found GPU0 NVIDIA GB10 which is of cuda capability 12.1.
-    Minimum and Maximum cuda capability supported by this version of PyTorch is
-    (8.0) - (12.0)
-    
-  warnings.warn(
-[2025-12-09 02:44:38] Init torch distributed begin.
-[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
-[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
-[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
-[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
-[2025-12-09 02:44:38] Init torch distributed ends. mem usage=-0.00 GB
-[2025-12-09 02:44:38] MOE_RUNNER_BACKEND is not initialized, the backend will be automatically selected
-[2025-12-09 02:44:39] Load weight begin. avail mem=112.69 GB
-[2025-12-09 02:44:39] Using ModelOptModelLoader due to ModelOpt quantization config.
-[2025-12-09 02:44:39] ModelOptModelLoader: Loading base model...
-[2025-12-09 02:44:39] Model is already quantized, loading directly...
-[2025-12-09 02:44:39] Detected ModelOpt FP8 checkpoint. The format is experimental and subject to change.
-[2025-12-09 02:44:40] Using model weights format ['*.safetensors']
-Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
-Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:10<00:30, 10.15s/it]
-[2025-12-09 02:44:53] Found .k_scale in the checkpoint (e.g. model.layers.26.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.26.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:44:54] Found .v_scale in the checkpoint (e.g. model.layers.26.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.26.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:44:55] Found .k_scale in the checkpoint (e.g. model.layers.27.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.27.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:44:56] Found .v_scale in the checkpoint (e.g. model.layers.27.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.27.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:44:58] Found .k_scale in the checkpoint (e.g. model.layers.28.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.28.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:44:58] Found .v_scale in the checkpoint (e.g. model.layers.28.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.28.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:00] Found .k_scale in the checkpoint (e.g. model.layers.29.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.29.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:00] Found .v_scale in the checkpoint (e.g. model.layers.29.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.29.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:02] Found .k_scale in the checkpoint (e.g. model.layers.30.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.30.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:02] Found .v_scale in the checkpoint (e.g. model.layers.30.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.30.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:04] Found .k_scale in the checkpoint (e.g. model.layers.31.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.31.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:04] Found .v_scale in the checkpoint (e.g. model.layers.31.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.31.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:06] Found .k_scale in the checkpoint (e.g. model.layers.32.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.32.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:06] Found .v_scale in the checkpoint (e.g. model.layers.32.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.32.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:08] Found .k_scale in the checkpoint (e.g. model.layers.33.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.33.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:08] Found .v_scale in the checkpoint (e.g. model.layers.33.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.33.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:10] Found .k_scale in the checkpoint (e.g. model.layers.34.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.34.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:10] Found .v_scale in the checkpoint (e.g. model.layers.34.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.34.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:12] Found .k_scale in the checkpoint (e.g. model.layers.35.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.35.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:12] Found .v_scale in the checkpoint (e.g. model.layers.35.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.35.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:14] Found .k_scale in the checkpoint (e.g. model.layers.36.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.36.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:14] Found .v_scale in the checkpoint (e.g. model.layers.36.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.36.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:16] Found .k_scale in the checkpoint (e.g. model.layers.37.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.37.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:16] Found .v_scale in the checkpoint (e.g. model.layers.37.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.37.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:18] Found .k_scale in the checkpoint (e.g. model.layers.38.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.38.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:19] Found .v_scale in the checkpoint (e.g. model.layers.38.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.38.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:20] Found .k_scale in the checkpoint (e.g. model.layers.39.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.39.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:21] Found .v_scale in the checkpoint (e.g. model.layers.39.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.39.self_attn.attn.v_scale). .v_scale is not loaded.
-Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:40<00:44, 22.22s/it]
-[2025-12-09 02:45:23] Found .k_scale in the checkpoint (e.g. model.layers.0.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.0.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:24] Found .v_scale in the checkpoint (e.g. model.layers.0.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.0.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:25] Found .k_scale in the checkpoint (e.g. model.layers.1.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.1.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:26] Found .v_scale in the checkpoint (e.g. model.layers.1.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.1.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:26] Found .k_scale in the checkpoint (e.g. model.layers.10.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.10.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:26] Found .v_scale in the checkpoint (e.g. model.layers.10.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.10.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:28] Found .k_scale in the checkpoint (e.g. model.layers.2.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.2.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:28] Found .v_scale in the checkpoint (e.g. model.layers.2.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.2.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:30] Found .k_scale in the checkpoint (e.g. model.layers.3.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.3.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:30] Found .v_scale in the checkpoint (e.g. model.layers.3.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.3.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:32] Found .k_scale in the checkpoint (e.g. model.layers.4.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.4.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:32] Found .v_scale in the checkpoint (e.g. model.layers.4.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.4.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:34] Found .k_scale in the checkpoint (e.g. model.layers.5.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.5.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:34] Found .v_scale in the checkpoint (e.g. model.layers.5.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.5.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:36] Found .k_scale in the checkpoint (e.g. model.layers.6.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.6.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:36] Found .v_scale in the checkpoint (e.g. model.layers.6.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.6.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:38] Found .k_scale in the checkpoint (e.g. model.layers.7.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.7.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:38] Found .v_scale in the checkpoint (e.g. model.layers.7.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.7.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:40] Found .k_scale in the checkpoint (e.g. model.layers.8.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.8.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:41] Found .v_scale in the checkpoint (e.g. model.layers.8.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.8.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:42] Found .k_scale in the checkpoint (e.g. model.layers.9.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.9.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:43] Found .v_scale in the checkpoint (e.g. model.layers.9.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.9.self_attn.attn.v_scale). .v_scale is not loaded.
-Loading safetensors checkpoint shards:  75% Completed | 3/4 [01:02<00:22, 22.09s/it]
-[2025-12-09 02:45:46] Found .k_scale in the checkpoint (e.g. model.layers.11.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.11.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:47] Found .v_scale in the checkpoint (e.g. model.layers.11.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.11.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:48] Found .k_scale in the checkpoint (e.g. model.layers.12.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.12.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:49] Found .v_scale in the checkpoint (e.g. model.layers.12.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.12.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:50] Found .k_scale in the checkpoint (e.g. model.layers.13.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.13.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:51] Found .v_scale in the checkpoint (e.g. model.layers.13.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.13.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:52] Found .k_scale in the checkpoint (e.g. model.layers.14.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.14.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:53] Found .v_scale in the checkpoint (e.g. model.layers.14.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.14.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:54] Found .k_scale in the checkpoint (e.g. model.layers.15.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.15.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:55] Found .v_scale in the checkpoint (e.g. model.layers.15.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.15.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:57] Found .k_scale in the checkpoint (e.g. model.layers.16.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.16.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:57] Found .v_scale in the checkpoint (e.g. model.layers.16.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.16.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:45:59] Found .k_scale in the checkpoint (e.g. model.layers.17.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.17.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:45:59] Found .v_scale in the checkpoint (e.g. model.layers.17.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.17.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:46:01] Found .k_scale in the checkpoint (e.g. model.layers.18.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.18.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:46:01] Found .v_scale in the checkpoint (e.g. model.layers.18.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.18.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:46:03] Found .k_scale in the checkpoint (e.g. model.layers.19.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.19.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:46:03] Found .v_scale in the checkpoint (e.g. model.layers.19.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.19.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:46:04] Found .k_scale in the checkpoint (e.g. model.layers.20.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.20.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:46:05] Found .v_scale in the checkpoint (e.g. model.layers.20.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.20.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:46:06] Found .k_scale in the checkpoint (e.g. model.layers.21.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.21.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:46:07] Found .v_scale in the checkpoint (e.g. model.layers.21.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.21.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:46:08] Found .k_scale in the checkpoint (e.g. model.layers.22.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.22.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:46:09] Found .v_scale in the checkpoint (e.g. model.layers.22.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.22.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:46:10] Found .k_scale in the checkpoint (e.g. model.layers.23.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.23.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:46:11] Found .v_scale in the checkpoint (e.g. model.layers.23.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.23.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:46:12] Found .k_scale in the checkpoint (e.g. model.layers.24.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.24.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:46:13] Found .v_scale in the checkpoint (e.g. model.layers.24.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.24.self_attn.attn.v_scale). .v_scale is not loaded.
-[2025-12-09 02:46:13] Found .k_scale in the checkpoint (e.g. model.layers.25.self_attn.k_proj.k_scale), but not found the expected name in the model (e.g. model.layers.25.self_attn.attn.k_scale). .k_scale is not loaded.
-[2025-12-09 02:46:13] Found .v_scale in the checkpoint (e.g. model.layers.25.self_attn.v_proj.v_scale), but not found the expected name in the model (e.g. model.layers.25.self_attn.attn.v_scale). .v_scale is not loaded.
-Loading safetensors checkpoint shards: 100% Completed | 4/4 [01:33<00:00, 25.44s/it]
-Loading safetensors checkpoint shards: 100% Completed | 4/4 [01:33<00:00, 23.33s/it]
-
-[2025-12-09 02:46:14] Load weight end. type=Qwen3ForCausalLM, dtype=torch.bfloat16, avail mem=96.89 GB, mem usage=15.80 GB.
-[2025-12-09 02:46:14] Using KV cache dtype: torch.float8_e4m3fn
-[2025-12-09 02:46:18] KV Cache is allocated. #tokens: 826695, K size: 31.54 GB, V size: 31.54 GB
-[2025-12-09 02:46:18] Memory pool end. avail mem=32.39 GB
-[2025-12-09 02:46:19] Capture cuda graph begin. This can take up to several minutes. avail mem=31.18 GB
-[2025-12-09 02:46:19] Capture cuda graph bs [1, 2, 4, 8, 12, 16, 24, 32]
-  0%|          | 0/8 [00:00<?, ?it/s]Capturing batches (bs=32 avail_mem=31.54 GB):   0%|          | 0/8 [00:00<?, ?it/s]Capturing batches (bs=32 avail_mem=31.54 GB):  12%|█▎        | 1/8 [00:11<01:20, 11.46s/it]Capturing batches (bs=24 avail_mem=28.63 GB):  12%|█▎        | 1/8 [00:11<01:20, 11.46s/it]Capturing batches (bs=24 avail_mem=28.63 GB):  25%|██▌       | 2/8 [00:11<00:28,  4.82s/it]Capturing batches (bs=16 avail_mem=28.62 GB):  25%|██▌       | 2/8 [00:11<00:28,  4.82s/it]Capturing batches (bs=16 avail_mem=28.62 GB):  38%|███▊      | 3/8 [00:11<00:13,  2.72s/it]Capturing batches (bs=12 avail_mem=28.52 GB):  38%|███▊      | 3/8 [00:11<00:13,  2.72s/it]Capturing batches (bs=12 avail_mem=28.52 GB):  50%|█████     | 4/8 [00:12<00:06,  1.71s/it]Capturing batches (bs=8 avail_mem=28.49 GB):  50%|█████     | 4/8 [00:12<00:06,  1.71s/it] Capturing batches (bs=8 avail_mem=28.49 GB):  62%|██████▎   | 5/8 [00:12<00:03,  1.15s/it]Capturing batches (bs=4 avail_mem=28.49 GB):  62%|██████▎   | 5/8 [00:12<00:03,  1.15s/it]Capturing batches (bs=4 avail_mem=28.49 GB):  75%|███████▌  | 6/8 [00:12<00:01,  1.22it/s]Capturing batches (bs=2 avail_mem=28.47 GB):  75%|███████▌  | 6/8 [00:12<00:01,  1.22it/s]Capturing batches (bs=2 avail_mem=28.47 GB):  88%|████████▊ | 7/8 [00:12<00:00,  1.65it/s]Capturing batches (bs=1 avail_mem=28.47 GB):  88%|████████▊ | 7/8 [00:12<00:00,  1.65it/s]Capturing batches (bs=1 avail_mem=28.47 GB): 100%|██████████| 8/8 [00:12<00:00,  2.13it/s]Capturing batches (bs=1 avail_mem=28.47 GB): 100%|██████████| 8/8 [00:12<00:00,  1.59s/it]
-[2025-12-09 02:46:32] Capture cuda graph end. Time elapsed: 13.01 s. mem usage=2.73 GB. avail mem=28.45 GB.
-[2025-12-09 02:46:32] max_total_num_tokens=826695, chunked_prefill_size=8192, max_prefill_tokens=16384, max_running_requests=4096, context_len=40960, available_gpu_mem=28.33 GB
-[2025-12-09 02:46:33] INFO:     Started server process [1]
-[2025-12-09 02:46:33] INFO:     Waiting for application startup.
-[2025-12-09 02:46:33] Using default chat sampling params from model generation config: {'repetition_penalty': 1.0, 'temperature': 0.6, 'top_k': 20, 'top_p': 0.95}
-[2025-12-09 02:46:33] Using default chat sampling params from model generation config: {'repetition_penalty': 1.0, 'temperature': 0.6, 'top_k': 20, 'top_p': 0.95}
-[2025-12-09 02:46:33] INFO:     Application startup complete.
-[2025-12-09 02:46:33] INFO:     Uvicorn running on http://0.0.0.0:30000 (Press CTRL+C to quit)
-[2025-12-09 02:46:34] INFO:     127.0.0.1:38824 - "GET /get_model_info HTTP/1.1" 200 OK
-[2025-12-09 02:46:34] Start of co-locate warmup ...
-[2025-12-09 02:46:34] Prefill batch, #new-seq: 1, #new-token: 6, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, 
-[2025-12-09 02:46:46] INFO:     127.0.0.1:38832 - "POST /generate HTTP/1.1" 200 OK
-[2025-12-09 02:46:46] The server is fired up and ready to roll!
+Unable to find image 'nvcr.io/nvidia/pytorch:23.10-py3' locally
+23.10-py3: Pulling from nvidia/pytorch
+c391327a0f1d: Pulling fs layer
+f074145f5a29: Pulling fs layer
+864de3c6dec3: Pulling fs layer
+6098e3e7d96f: Pulling fs layer
+0a6fb9455297: Pulling fs layer
+89d18d5bbdca: Pulling fs layer
+f7e1ffe62a8d: Pulling fs layer
+72c04c6ca982: Pulling fs layer
+aef1eef57a90: Pulling fs layer
+60878274e08a: Pulling fs layer
+fb92f162a715: Pulling fs layer
+54f4d1c5e3a9: Pulling fs layer
+a2e860159229: Pulling fs layer
+e0e16a873394: Pulling fs layer
+83e9424b667b: Pulling fs layer
+6098e3e7d96f: Waiting
+0a6fb9455297: Waiting
+8aade5b752d8: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+c213836083c6: Pulling fs layer
+370b9d757df4: Pulling fs layer
+2288c0635ead: Pulling fs layer
+c04794cbcac8: Pulling fs layer
+ed9ed05fc98a: Pulling fs layer
+4efd07d8985f: Pulling fs layer
+750188eaff00: Pulling fs layer
+2d6024a04c8a: Pulling fs layer
+6966553fdfb2: Pulling fs layer
+1ad80f3a9017: Pulling fs layer
+8aaf42d3475b: Pulling fs layer
+26674d9071c1: Pulling fs layer
+9f8c8ce9ba07: Pulling fs layer
+9edbd76b401e: Pulling fs layer
+2b8d1f352b75: Pulling fs layer
+89d18d5bbdca: Waiting
+af100f626db3: Pulling fs layer
+63504623ca58: Pulling fs layer
+f7e1ffe62a8d: Waiting
+d8293669b7b5: Pulling fs layer
+72c04c6ca982: Waiting
+82b0b8f84f91: Pulling fs layer
+aef1eef57a90: Waiting
+60878274e08a: Waiting
+fb92f162a715: Waiting
+54f4d1c5e3a9: Waiting
+2288c0635ead: Waiting
+a2e860159229: Waiting
+90c3fba5d718: Pulling fs layer
+ab7341b1c1b8: Pulling fs layer
+e0e16a873394: Waiting
+c04794cbcac8: Waiting
+6d554f02e57f: Pulling fs layer
+83e9424b667b: Waiting
+45252a50d338: Pulling fs layer
+8aade5b752d8: Waiting
+9f107ff89e4b: Pulling fs layer
+9538d0aee052: Pulling fs layer
+1943ce3cc699: Pulling fs layer
+4f4fb700ef54: Waiting
+bc8899538d81: Pulling fs layer
+bb19c79812a5: Pulling fs layer
+ed9ed05fc98a: Waiting
+8aaf42d3475b: Waiting
+26674d9071c1: Waiting
+4efd07d8985f: Waiting
+9f8c8ce9ba07: Waiting
+7c8fd4bc89df: Pulling fs layer
+9edbd76b401e: Waiting
+a8080de632ca: Pulling fs layer
+2b8d1f352b75: Waiting
+af100f626db3: Waiting
+750188eaff00: Waiting
+096da166f678: Pulling fs layer
+2146ea2b9680: Pulling fs layer
+82b0b8f84f91: Waiting
+c213836083c6: Waiting
+370b9d757df4: Waiting
+2d6024a04c8a: Waiting
+1ad80f3a9017: Waiting
+90c3fba5d718: Waiting
+ab7341b1c1b8: Waiting
+6d554f02e57f: Waiting
+096da166f678: Waiting
+45252a50d338: Waiting
+bb19c79812a5: Waiting
+2146ea2b9680: Waiting
+7c8fd4bc89df: Waiting
+a8080de632ca: Waiting
+9538d0aee052: Waiting
+1943ce3cc699: Waiting
+bc8899538d81: Waiting
+d8293669b7b5: Waiting
+6966553fdfb2: Waiting
+63504623ca58: Waiting
+9f107ff89e4b: Waiting
+c391327a0f1d: Download complete
+6098e3e7d96f: Verifying Checksum
+6098e3e7d96f: Download complete
+c391327a0f1d: Pull complete
+864de3c6dec3: Verifying Checksum
+864de3c6dec3: Download complete
+f074145f5a29: Verifying Checksum
+f074145f5a29: Download complete
+89d18d5bbdca: Verifying Checksum
+89d18d5bbdca: Download complete
+f7e1ffe62a8d: Verifying Checksum
+f7e1ffe62a8d: Download complete
+72c04c6ca982: Verifying Checksum
+72c04c6ca982: Download complete
+aef1eef57a90: Verifying Checksum
+aef1eef57a90: Download complete
+60878274e08a: Verifying Checksum
+60878274e08a: Download complete
+54f4d1c5e3a9: Download complete
+fb92f162a715: Verifying Checksum
+fb92f162a715: Download complete
+e0e16a873394: Verifying Checksum
+e0e16a873394: Download complete
+f074145f5a29: Pull complete
+83e9424b667b: Verifying Checksum
+83e9424b667b: Download complete
+8aade5b752d8: Verifying Checksum
+8aade5b752d8: Download complete
+4f4fb700ef54: Verifying Checksum
+4f4fb700ef54: Download complete
+c213836083c6: Verifying Checksum
+c213836083c6: Download complete
+370b9d757df4: Verifying Checksum
+370b9d757df4: Download complete
+864de3c6dec3: Pull complete
+6098e3e7d96f: Pull complete
+a2e860159229: Verifying Checksum
+a2e860159229: Download complete
+2288c0635ead: Verifying Checksum
+2288c0635ead: Download complete
+ed9ed05fc98a: Verifying Checksum
+ed9ed05fc98a: Download complete
+4efd07d8985f: Verifying Checksum
+4efd07d8985f: Download complete
+750188eaff00: Verifying Checksum
+2d6024a04c8a: Download complete
+c04794cbcac8: Verifying Checksum
+c04794cbcac8: Download complete
+6966553fdfb2: Verifying Checksum
+6966553fdfb2: Download complete
+1ad80f3a9017: Verifying Checksum
+1ad80f3a9017: Download complete
+26674d9071c1: Verifying Checksum
+26674d9071c1: Download complete

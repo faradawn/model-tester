@@ -1,7 +1,3 @@
 # Ignore environment variables file containing sensitive tokens
 .env
-
-# Ignore any backup files
-*.env.backup
-*.env.bak
-
+.venv
