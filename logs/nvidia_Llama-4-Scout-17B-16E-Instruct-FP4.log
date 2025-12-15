@@ -19,7 +19,7 @@ A copy of this license is made available in this container at /NGC-DL-CONTAINER-
     (8.0) - (12.0)
     
   warnings.warn(
-[2025-12-14 20:17:09] WARNING common.py:1568: Failed to get GPU memory capacity from nvidia-smi, falling back to torch.cuda.mem_get_info().
+[2025-12-15 04:20:26] WARNING common.py:1568: Failed to get GPU memory capacity from nvidia-smi, falling back to torch.cuda.mem_get_info().
 Traceback (most recent call last):
   File "<frozen runpy>", line 198, in _run_module_as_main
   File "<frozen runpy>", line 88, in _run_code
@@ -35,42 +35,7 @@ Traceback (most recent call last):
   File "<string>", line 277, in __init__
   File "/sgl-workspace/sglang/python/sglang/srt/server_args.py", line 599, in __post_init__
     self._handle_model_specific_adjustments()
-  File "/sgl-workspace/sglang/python/sglang/srt/server_args.py", line 906, in _handle_model_specific_adjustments
-    from sglang.srt.configs.model_config import is_deepseek_nsa
-  File "/sgl-workspace/sglang/python/sglang/srt/configs/model_config.py", line 26, in <module>
-    from sglang.srt.layers.quantization import QUANTIZATION_METHODS
-  File "/sgl-workspace/sglang/python/sglang/srt/layers/quantization/__init__.py", line 30, in <module>
-    from sglang.srt.layers.quantization.modelopt_quant import (
-  File "/sgl-workspace/sglang/python/sglang/srt/layers/quantization/modelopt_quant.py", line 64, in <module>
-    from flashinfer import fp4_quantize
-  File "/usr/local/lib/python3.12/dist-packages/flashinfer/__init__.py", line 23, in <module>
-    from . import jit as jit
-  File "/usr/local/lib/python3.12/dist-packages/flashinfer/jit/__init__.py", line 22, in <module>
-    from . import cubin_loader
-  File "/usr/local/lib/python3.12/dist-packages/flashinfer/jit/cubin_loader.py", line 27, in <module>
-    from .core import logger
-  File "/usr/local/lib/python3.12/dist-packages/flashinfer/jit/core.py", line 10, in <module>
-    import tvm_ffi
-  File "/usr/local/lib/python3.12/dist-packages/tvm_ffi/__init__.py", line 61, in <module>
-    from . import _optional_torch_c_dlpack
-  File "/usr/local/lib/python3.12/dist-packages/tvm_ffi/_optional_torch_c_dlpack.py", line 132, in <module>
-    _LIB = load_torch_c_dlpack_extension()  # keep a reference to the loaded shared library
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.12/dist-packages/tvm_ffi/_optional_torch_c_dlpack.py", line 88, in load_torch_c_dlpack_extension
-    subprocess.run(
-  File "/usr/lib/python3.12/subprocess.py", line 550, in run
-    stdout, stderr = process.communicate(input, timeout=timeout)
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/subprocess.py", line 1201, in communicate
-    self.wait()
-  File "/usr/lib/python3.12/subprocess.py", line 1264, in wait
-    return self._wait(timeout=timeout)
+  File "/sgl-workspace/sglang/python/sglang/srt/server_args.py", line 1019, in _handle_model_specific_adjustments
+    assert self.attention_backend in {
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/subprocess.py", line 2053, in _wait
-    (pid, sts) = self._try_wait(0)
-                 ^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/subprocess.py", line 2011, in _try_wait
-    (pid, sts) = os.waitpid(self.pid, wait_flags)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-KeyboardInterrupt
-EOF
+AssertionError: fa3, aiter, triton, trtllm_mha or intel_xpu is required for Llama4 model but got None
