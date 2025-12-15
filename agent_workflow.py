@@ -120,8 +120,8 @@ def read_next_model_node(state: ModelTestState) -> ModelTestState:
     # Find next untested model
     for idx, model_row in enumerate(state['all_models']):
         # Skip if already tested (status == "Yes")
-        if model_row.get('status', '').strip().lower() != 'yes':
-            state['model_name'] = model_row.get('model', model_row.get('Model', ''))
+        if model_row['Supported Status'] != 'Yes':
+            state['model_name'] = model_row['Model']
             state['current_row_index'] = model_row['_index']
             state['retry_count'] = 0
             state['error_logs'] = ""
@@ -146,21 +146,48 @@ def generate_command_node(state: ModelTestState) -> ModelTestState:
     llm = ChatOpenAI(model=model_name, temperature=0)
     print(f"   Using LLM: {model_name}")
     
+    # Read top 3 examples from CSV to provide pattern
+    csv_examples = ""
+    try:
+        with open(state['csv_path'], 'r') as f:
+            reader = csv.DictReader(f)
+            examples = []
+            for idx, row in enumerate(reader):
+                if idx >= 3:  # Only get top 3
+                    break
+                model = row.get('Model', '')
+                command = row.get('Command', row.get('command', ''))
+                note = row.get('Note', row.get('note', ''))
+                if model and command:
+                    examples.append(f"Model: {model}\nCommand: {command}\nNote: {note}\n")
+            
+            if examples:
+                csv_examples = "\n".join(examples)
+    except Exception as e:
+        print(f"   Warning: Could not read CSV examples: {e}")
+    
     # Create prompt with context
     prompt_template = ChatPromptTemplate.from_messages([
-        ("system", """You are an expert in deploying LLM models using Docker on DGX Spark systems.
-Generate a docker command to serve the given model. The command should:
-- Use appropriate container images for the model type
-- Configure proper GPU settings
-- Expose necessary ports
-- Set up model serving correctly
+        ("system", """You are an expert in deploying LLM models using Docker on DGX Spark systems with sglang.
+
+Generate a docker command to serve the given model following the EXACT pattern from the examples below.
+
+EXAMPLES FROM SUCCESSFUL DEPLOYMENTS:
+{examples}
+
+IMPORTANT RULES:
+- Follow the exact pattern: source .env && docker run [flags] [container] python3 -m sglang.launch_server [args]
+- Use the same docker flags and container image as examples
+- Pay attention to quantization flags (modelopt_fp8, modelopt_fp4) based on model name
+- Add --trust-remote-code, --disable-cuda-graph
+- Keep --mem-fraction-static 0.7 
 
 Return ONLY the docker command, no explanations."""),
         ("user", """Model: {model_name}
 
 {retry_context}
 
-Generate the docker serving command:""")
+Generate the docker serving command following the pattern above:""")
     ])
     
     # Add retry context if this is a retry
@@ -170,7 +197,7 @@ Generate the docker serving command:""")
 PREVIOUS ATTEMPT FAILED. This is retry #{state['retry_count']}.
 
 Previous error logs:
-{state['error_logs'][:1000]}
+{state['error_logs'][:100]}
 
 Please generate a DIFFERENT command that addresses the issues above.
 """
@@ -179,11 +206,12 @@ Please generate a DIFFERENT command that addresses the issues above.
     chain = prompt_template | llm | StrOutputParser()
     command = chain.invoke({
         "model_name": state['model_name'],
-        "retry_context": retry_context
+        "retry_context": retry_context,
+        "examples": csv_examples if csv_examples else "No examples available."
     })
     
     state['docker_command'] = command.strip()
-    print(f"✓ Generated command: {state['docker_command'][:100]}...")
+    print(f"✓ Generated command: {state['docker_command']}...")
     
     return state
 
