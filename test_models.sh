@@ -1,58 +1,78 @@
 #!/bin/bash
 
-# Single model testing script
-# Usage: ./test_models.sh <model_name> <docker_command>
-# Returns: exit code 0 (SUCCESS), 1 (FAILURE), 2 (TIMEOUT)
+# Simple model testing script
+# Usage: ./test_models.sh [model_name]
+# If model_name provided, test only that model
+# Logic: Run docker command with EOF marker
+#   - If "ready to roll" appears = SUCCESS
+#   - If "EOF" appears first = FAILURE
+#   - If timeout = TIMEOUT
 
 TIMEOUT=600
 mkdir -p logs
+TEST_MODEL="${1:-}"  # Optional: specific model to test
 
-# Check arguments
-if [ $# -lt 2 ]; then
-    echo "Usage: $0 <model_name> <docker_command>"
-    exit 1
-fi
+test_model() {
+    local model=$1
+    local command=$2
+    # Replace slashes with underscores for log filename
+    local log_file="logs/${model//\//_}.log"
+    
+    echo "Testing: $model"
+    echo "Log: $log_file"
+    
+    # Run docker in background
+    (eval "$command"; echo "EOF") > "$log_file" 2>&1 &
+    local docker_pid=$!
+    
+    # Monitor log file for success/failure
+    local start_time=$(date +%s)
+    while true; do
+        # Check timeout
+        local current_time=$(date +%s)
+        if (( current_time - start_time > TIMEOUT )); then
+            echo "⏱ TIMEOUT"
+            kill $docker_pid 2>/dev/null || true
+            docker stop $(docker ps -q) 2>/dev/null || true
+            return 2
+        fi
+        
+        # Check if docker process exited (check for EOF in log)
+        if grep -q "^EOF$" "$log_file" 2>/dev/null; then
+            echo "✗ FAILURE: Process exited"
+            docker stop $(docker ps -q) 2>/dev/null || true
+            return 1
+        fi
+        
+        # Check for success
+        if grep -iq "ready to roll\|Server is ready" "$log_file" 2>/dev/null; then
+            echo "✓ SUCCESS"
+            kill $docker_pid 2>/dev/null || true
+            docker stop $(docker ps -q) 2>/dev/null || true
+            return 0
+        fi
+        
+        sleep 2
+    done
+}
 
-MODEL=$1
-COMMAND=$2
-
-# Replace slashes with underscores for log filename
-LOG_FILE="logs/${MODEL//\//_}.log"
-
-echo "Testing: $MODEL"
-echo "Log: $LOG_FILE"
-
-# Run docker in background
-(eval "$COMMAND"; echo "EOF") > "$LOG_FILE" 2>&1 &
-DOCKER_PID=$!
-
-# Monitor log file for success/failure
-START_TIME=$(date +%s)
-while true; do
-    # Check timeout
-    CURRENT_TIME=$(date +%s)
-    if (( CURRENT_TIME - START_TIME > TIMEOUT )); then
-        echo "⏱ TIMEOUT"
-        kill $DOCKER_PID 2>/dev/null || true
-        docker stop $(docker ps -q) 2>/dev/null || true
-        exit 2
+# Read CSV and test each model
+while IFS=',' read -r model status command note; do
+    # Skip header
+    [[ "$model" == "Model" ]] && continue
+    [[ -z "$model" ]] && continue
+    
+    # If specific model requested, skip others
+    if [[ -n "$TEST_MODEL" ]]; then
+        [[ "$model" != "$TEST_MODEL" ]] && continue
+    else
+        # If testing all, skip models already marked as "Yes" (already tested)
+        [[ "$status" == "Yes" ]] && continue
     fi
     
-    # Check if docker process exited (check for EOF in log)
-    if grep -q "^EOF$" "$LOG_FILE" 2>/dev/null; then
-        echo "✗ FAILURE: Process exited"
-        docker stop $(docker ps -q) 2>/dev/null || true
-        exit 1
-    fi
+    # Strip surrounding quotes from command
+    command=$(echo "$command" | sed 's/^"//;s/"$//')
     
-    # Check for success
-    if grep -iq "ready to roll\|Server is ready" "$LOG_FILE" 2>/dev/null; then
-        echo "✓ SUCCESS"
-        kill $DOCKER_PID 2>/dev/null || true
-        docker stop $(docker ps -q) 2>/dev/null || true
-        exit 0
-    fi
-    
-    sleep 2
-done
-
+    test_model "$model" "$command"
+    echo ""
+done < models_documentation.csv
