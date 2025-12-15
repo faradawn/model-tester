@@ -1,7 +1,21 @@
-Model,Supported Status,Command,Note
-nvidia/Qwen3-14B-FP8,Yes,"source .env && docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path nvidia/Qwen3-14B-FP8 --host 0.0.0.0 --port 30000 --quantization modelopt_fp8 --mem-fraction-static 0.7 --cuda-graph-max-bs 1",Need the --quantization flag (modelopt_fp8). Also need max cuda batch size and reduced mem-fraction-static. Otherwise might go out of memory during ninja build.
-nvidia/Qwen3-32B-FP4,Yes,"source .env && docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path nvidia/Qwen3-32B-FP4 --host 0.0.0.0 --port 30000 --quantization modelopt_fp4 --mem-fraction-static 0.7 --cuda-graph-max-bs 1",Need the --quantization flag (modelopt_fp4). Also need max cuda batch size and reduced mem-fraction-static. Otherwise might go out of memory during ninja build.
-nvidia/Phi-4-multimodal-instruct-FP8,Yes,"source .env && docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path nvidia/Phi-4-multimodal-instruct-FP8 --host 0.0.0.0 --port 30000 --quantization modelopt_fp8 --mem-fraction-static 0.7 --cuda-graph-max-bs 1 --trust-remote-code",Needs --trust-remote-code flag. Using max-bs 1 for faster testing
-nvidia/Llama-4-Scout-17B-16E-Instruct-FP4,No,"source .env && docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path nvidia/Llama-4-Scout-17B-16E-Instruct-FP4 --host 0.0.0.0 --port 30000 --quantization modelopt_fp4 --mem-fraction-static 0.7 --cuda-graph-max-bs 1",FP4 quantized Llama model with MoE architecture
-nvidia/Qwen2.5-VL-7B-Instruct-FP8,,"source .env && docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path nvidia/Qwen2.5-VL-7B-Instruct-FP8 --host 0.0.0.0 --port 30000 --quantization modelopt_fp8 --mem-fraction-static 0.7 --cuda-graph-max-bs 1",FP8 quantized Qwen2.5 vision-language model
-
+Model,Quantization,Support Status,HF Handle
+GPT-OSS-20B,MXFP4,,openai/gpt-oss-20b
+GPT-OSS-120B,MXFP4,,openai/gpt-oss-120b
+Llama-3.1-8B-Instruct,FP8,,nvidia/Llama-3.1-8B-Instruct-FP8
+Llama-3.1-8B-Instruct,NVFP4,,nvidia/Llama-3.1-8B-Instruct-FP4
+Llama-3.3-70B-Instruct,NVFP4,,nvidia/Llama-3.3-70B-Instruct-FP4
+Qwen3-8B,FP8,,nvidia/Qwen3-8B-FP8
+Qwen3-8B,NVFP4,,nvidia/Qwen3-8B-FP4
+Qwen3-14B,FP8,Yes,nvidia/Qwen3-14B-FP8
+Qwen3-14B,NVFP4,,nvidia/Qwen3-14B-FP4
+Qwen3-32B,NVFP4,Yes,nvidia/Qwen3-32B-FP4
+Phi-4-multimodal-instruct,FP8,Yes,nvidia/Phi-4-multimodal-instruct-FP8
+Phi-4-multimodal-instruct,NVFP4,,nvidia/Phi-4-multimodal-instruct-FP4
+Phi-4-reasoning-plus,FP8,,nvidia/Phi-4-reasoning-plus-FP8
+Phi-4-reasoning-plus,NVFP4,,nvidia/Phi-4-reasoning-plus-FP4
+Llama-3_3-Nemotron-Super-49B-v1_5,FP8,,nvidia/Llama-3_3-Nemotron-Super-49B-v1_5-FP8
+Qwen3-30B-A3B,NVFP4,,nvidia/Qwen3-30B-A3B-FP4
+Qwen2.5-VL-7B-Instruct,FP8,,nvidia/Qwen2.5-VL-7B-Instruct-FP8
+Qwen2.5-VL-7B-Instruct,NVFP4,,nvidia/Qwen2.5-VL-7B-Instruct-FP4
+Llama-4-Scout-17B-16E-Instruct,NVFP4,No,nvidia/Llama-4-Scout-17B-16E-Instruct-FP4
+Qwen3-235B-A22B (two Sparks only),NVFP4,,nvidia/Qwen3-235B-A22B-FP4

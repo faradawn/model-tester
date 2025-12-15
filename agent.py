@@ -23,7 +23,7 @@ def generate_command(state: MyState):
         rows = list(csv.DictReader(f))
         
     for i in range(state['row_idx'], len(rows)):
-        if rows[i]['Supported Status'].strip().lower() != 'yes':
+        if not rows[i]['Support Status'].strip():
             model_name = rows[i]['Model'].strip()
             break
     else:
@@ -82,6 +82,7 @@ def execute_command(state: MyState):
     command_outcome = "unknown"  # Initialize outcome
     # Stream the output line by line
     with open(f"logs/{model_name}.log", 'w') as log_file:
+        log_file.write(command)
         while True:
             output = process.stdout.readline()
             if output == '' and process.poll() is not None:
@@ -105,7 +106,7 @@ def execute_command(state: MyState):
     process.wait()
 
     if command_outcome == "success":
-        # Update CSV: set Supported Status to "Yes" for current model
+        # Update CSV: set Support Status to "Yes" for current model
         with open(state['csv_path'], 'r') as f:
             rows = list(csv.DictReader(f))
         
@@ -113,7 +114,7 @@ def execute_command(state: MyState):
         fieldnames = rows[0].keys() if rows else []
         for row in rows:
             if row['Model'].strip() == state['current_model_name']:
-                row['Supported Status'] = 'Yes'
+                row['Support Status'] = 'Yes'
                 break
         
         # Write back to CSV
@@ -122,7 +123,7 @@ def execute_command(state: MyState):
             writer.writeheader()
             writer.writerows(rows)
         
-        print(f"=== Updated CSV: {state['current_model_name']} -> Supported Status = Yes")
+        print(f"=== Updated CSV: {state['current_model_name']} -> Support Status = Yes")
         
         # Reset retry count on success and go back to generate_command to process next model
         return Command(update={"command_outcome": command_outcome, "retry_count": 0}, goto="generate_command")
@@ -130,6 +131,33 @@ def execute_command(state: MyState):
         # Increment retry count on failure
         new_retry_count = state.get('retry_count', 0) + 1
         print(f"=== Command failed. Retry count: {new_retry_count}")
+        
+        # If retried 3 times, mark as "No" and move to next model
+        if new_retry_count >= 3:
+            print(f"=== Max retries reached for {state['current_model_name']}. Marking as No.")
+            
+            # Update CSV: set Support Status to "No (retried 3 times)"
+            with open(state['csv_path'], 'r') as f:
+                rows = list(csv.DictReader(f))
+            
+            # Find and update the row for current model
+            fieldnames = rows[0].keys() if rows else []
+            for row in rows:
+                if row['Model'].strip() == state['current_model_name']:
+                    row['Support Status'] = 'No (retried 3 times)'
+                    break
+            
+            # Write back to CSV
+            with open(state['csv_path'], 'w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerows(rows)
+            
+            print(f"=== Updated CSV: {state['current_model_name']} -> Support Status = No (retried 3 times)")
+            
+            # Reset retry count and move to next model
+            return Command(update={"command_outcome": command_outcome, "retry_count": 0}, goto="generate_command")
+        
         return Command(update={"command_outcome": command_outcome, "retry_count": new_retry_count}, goto="generate_command")
     else:
         print("=== Should not happen - unknown status")
