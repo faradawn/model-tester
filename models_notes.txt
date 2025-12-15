@@ -1,0 +1,5 @@
+# Notes on running the commands
+- System: ARM CPU, Single NVIDIA GPU GB10, cuda capability 12.1. System has CUDA 13.
+- use --quantization flag (modelopt_fp8 or modelopt_fp4) to fix the quantization issue
+- use --mem-fraction-static 0.7 --disable-cuda-graph to avoid out of memory (ninja compiling kernel)
+- If there are previous attempts, learn from them and construct a new docker command.

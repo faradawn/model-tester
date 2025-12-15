@@ -30,7 +30,35 @@ def generate_command(state: MyState):
         print("=== No more models! Go to end")
         return Command(goto=END)  # No unsupported models found
     
-    prompt = f'''
+    # Check if this is a retry and read previous failure log
+    previous_error = ""
+    if state["retry_count"] > 0:
+        log_file_path = f"logs/{model_name.replace('/', '_')}.log"
+        if os.path.exists(log_file_path):
+            with open(log_file_path, 'r') as log_file:
+                all_lines = log_file.readlines()
+                last_100_lines = all_lines[-100:] if len(all_lines) > 100 else all_lines
+                previous_error = ''.join(last_100_lines)
+                print(f"=== Retry attempt {state['retry_count']}: Reading previous error log")
+    
+    # Build prompt based on whether this is a retry or not
+    if state["retry_count"] > 0:
+        prompt = f'''
+The previous command for model {model_name} failed. Below is the error output from the last 100 lines:
+
+--- Previous Error Log ---
+{previous_error}
+--- End of Error Log ---
+
+Based on the error above, and SGLang inference engine docs, debug the issue and generate a corrected docker run command. 
+Modify the --quantization flag (modelopt_fp8 or modelopt_fp4) or other parameters as needed to fix the error.
+Output only the corrected command, without any additional text or punctuations.
+
+Base command template:
+docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host --name test_container lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path {model_name} --host 0.0.0.0 --port 30000 --quantization modelopt_fp8 --mem-fraction-static 0.7 --trust-remote-code --disable-cuda-graph
+    '''
+    else:
+        prompt = f'''
 Modify the --quantization flag (modelopt_fp8 or modelopt_fp4) based on the model name. Output only the command, without any additional text or punctuations.
 
 docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host --name test_container lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path {model_name} --host 0.0.0.0 --port 30000 --quantization modelopt_fp8 --mem-fraction-static 0.7 --trust-remote-code --disable-cuda-graph
@@ -119,7 +147,7 @@ workflow.add_edge("execute_command", END)
 
 agent = workflow.compile()
 
-agent.invoke({"row_idx": 0, "csv_path": "models_documentation.csv", "retry_count": 0})
+agent.invoke({"row_idx": 0, "csv_path": "models_documentation.csv", "retry_count": 1})
 
 
     
