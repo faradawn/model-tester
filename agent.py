@@ -24,7 +24,7 @@ def generate_command(state: MyState):
         
     for i in range(state['row_idx'], len(rows)):
         if not rows[i]['Support Status'].strip():
-            model_name = rows[i]['Model'].strip()
+            model_name = rows[i]['HF Handle'].strip()
             break
     else:
         print("=== No more models! Go to end")
@@ -113,17 +113,14 @@ def execute_command(state: MyState):
         # Find and update the row for current model
         fieldnames = rows[0].keys() if rows else []
         for row in rows:
-            if row['Model'].strip() == state['current_model_name']:
+            if row['HF Handle'].strip() == state['current_model_name']:
                 row['Support Status'] = 'Yes'
+                with open(state['csv_path'], 'w', newline='') as f:
+                    writer = csv.DictWriter(f, fieldnames=fieldnames)
+                    writer.writeheader()
+                    writer.writerows(rows)
+                    print(f"=== YES! Updated CSV: {state['current_model_name']} -> Support Status = Yes")
                 break
-        
-        # Write back to CSV
-        with open(state['csv_path'], 'w', newline='') as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerows(rows)
-        
-        print(f"=== Updated CSV: {state['current_model_name']} -> Support Status = Yes")
         
         # Reset retry count on success and go back to generate_command to process next model
         return Command(update={"command_outcome": command_outcome, "retry_count": 0}, goto="generate_command")
@@ -175,7 +172,7 @@ workflow.add_edge("execute_command", END)
 
 agent = workflow.compile()
 
-agent.invoke({"row_idx": 0, "csv_path": "models_documentation.csv", "retry_count": 1})
+agent.invoke({"row_idx": 0, "csv_path": "models_documentation.csv", "retry_count": 0})
 
 
     
