@@ -7,7 +7,21 @@ import csv
 import subprocess
 import os
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+# llm = ChatOpenAI(model="gpt-5.2")
+
+llm = ChatOpenAI(
+    model="nvidia/Qwen3-8B-FP4",  # or just use any name, SGLang uses the loaded model
+    base_url="http://localhost:30001/v1",  # SGLang's OpenAI-compatible endpoint
+    api_key="EMPTY",  # Local server doesn't need a real API key
+    temperature=0.7,
+)
+
+# Command to spin up a agent
+# source .env && docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host --name test_container lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path nvidia/Llama-3.1-8B-Instruct-FP4 --host 0.0.0.0 --port 30000 --quantization modelopt_fp4 --mem-fraction-static 0.7 --trust-remote-code --disable-cuda-graph && echo MyEOF
+
+
+# res = llm.invoke("What is 1+1")
+# print("res", res.content)
 
 class MyState(TypedDict):
     row_idx: int
@@ -55,13 +69,13 @@ Modify the --quantization flag (modelopt_fp8 or modelopt_fp4) or other parameter
 Output only the corrected command, without any additional text or punctuations.
 
 Base command template:
-docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host --name test_container lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path {model_name} --host 0.0.0.0 --port 30000 --quantization modelopt_fp8 --mem-fraction-static 0.7 --trust-remote-code --disable-cuda-graph
+docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host --name tester_container lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path {model_name} --host 0.0.0.0 --port 30000 --quantization modelopt_fp8 --mem-fraction-static 0.7 --trust-remote-code --disable-cuda-graph
     '''
     else:
         prompt = f'''
 Modify the --quantization flag (modelopt_fp8 or modelopt_fp4) based on the model name. Output only the command, without any additional text or punctuations.
 
-docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host --name test_container lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path {model_name} --host 0.0.0.0 --port 30000 --quantization modelopt_fp8 --mem-fraction-static 0.7 --trust-remote-code --disable-cuda-graph
+docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host --name tester_container lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path {model_name} --host 0.0.0.0 --port 30000 --quantization modelopt_fp8 --mem-fraction-static 0.7 --trust-remote-code --disable-cuda-graph
     '''
 
     llm_result = llm.invoke(prompt).content
@@ -95,12 +109,12 @@ def execute_command(state: MyState):
                     command_outcome = "success"
                     break
                     
-                if "MyEOF" in output:  # This means the process exited and failed
+                if "MyEOF" or "ValueError" in output:  # This means the process exited and failed
                     command_outcome = "failed"
                     break
 
     # Clean up: stop and remove the docker container
-    subprocess.run("docker stop test_container && docker rm -f test_container", shell=True, executable='/bin/bash')
+    subprocess.run("docker stop tester_container && docker rm -f tester_container", shell=True, executable='/bin/bash')
 
     # Wait for the process to fully finish
     process.wait()

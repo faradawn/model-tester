@@ -1,5 +1,5 @@
 Model,Quantization,Support Status,HF Handle
-GPT-OSS-20B,MXFP4,Yes,openai/gpt-oss-20b
+GPT-OSS-20B,MXFP4,,openai/gpt-oss-20b
 GPT-OSS-120B,MXFP4,Yes,openai/gpt-oss-120b
 Llama-3.1-8B-Instruct,FP8,Yes,nvidia/Llama-3.1-8B-Instruct-FP8
 Llama-3.1-8B-Instruct,NVFP4,Yes,nvidia/Llama-3.1-8B-Instruct-FP4

@@ -1,5 +1,6 @@
-# model-tester
-Test different models on DGX Spark using an autonomous LangGraph agent
+# Model Testing Agent
+
+Local agent defined using LangGraph. Environment using DGX Spark. 
 
 ## Overview
 This tool uses LangGraph to orchestrate an AI agent workflow that:
@@ -19,25 +20,25 @@ START → READ_CSV → GENERATE_COMMAND → EXECUTE_TEST → CHECK_RESULT
            └────────────────── UPDATE_CSV ←─────────────────
 ```
 
-## Setup
+## Quick Start 
 
-### 1. Install Dependencies
+### 1. Spin up Local LLM (e.g. LLama3.1)
 ```bash
-pip install -r requirements.txt
+export HF_TOKEN="hf_xxx"
+
+docker run --gpus all --shm-size 32g -p 30000:30000 -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=""$HF_TOKEN"" --ipc=host --name test_container lmsysorg/sglang:nightly-dev-cu13-20251208-599686b8 python3 -m sglang.launch_server --model-path nvidia/Llama-3.1-8B-Instruct-FP4 --host 0.0.0.0 --port 30000 --quantization modelopt_fp4 --mem-fraction-static 0.7 --trust-remote-code 
 ```
 
-### 2. Set OpenAI API Key
-```bash
-export OPENAI_API_KEY=your_key_here
-# Or create a .env file (copy from env.example)
-```
-
-### 3. Prepare Your CSV
-The CSV should have columns: `Model`, `status`, `command`, `note`
-- Models with `status=Yes` are skipped (already tested)
+### 2. Prepare Your CSV
+The CSV should have columns: `Model`, `Support Status`, and `HF Handle`
 - Example provided in `models_documentation.csv`
 
-### 4. Run
+### 3. Run
 ```bash
-source .env && python3 agent.py
+pip install -r requirements.txt
+
+python3 agent.py
 ```
+
+## Next Steps 
+Advanced agent: https://build.nvidia.com/spark/multi-agent-chatbot
